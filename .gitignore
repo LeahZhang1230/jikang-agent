@@ -1,0 +1,17 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.env
+.venv
+venv/
+
+# 测试/开发文件
+test_reply*.txt
+fix_*.py
+build_app.py
+
+# IDE
+.vscode/
+.idea/
