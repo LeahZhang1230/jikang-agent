@@ -7,12 +7,6 @@ __pycache__/
 .venv
 venv/
 
-# 旧文件（Vercel 不需要）
-app.py
-render.yaml
-templates/
-static/
-
 # 测试/开发文件
 test_reply*.txt
 fix_*.py
