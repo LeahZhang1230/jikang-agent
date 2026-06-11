@@ -1,84 +1,521 @@
 <!DOCTYPE html>
+
 <html lang="zh-CN">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>嵇康智能体 · 与叔夜对坐</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    <link href="https://fonts.loli.net/css2?family=Noto+Serif+SC:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <meta charset="UTF-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+  <title>嵇康对话</title>
+
+  <link rel="stylesheet" href="../static/css/style.css">
+
+  <style>
+
+    /* 历史列表中的继续按钮 */
+
+    .history-btn.continue {
+
+      background: var(--ink-dark, #3d3229);
+
+      color: #fff;
+
+      border-color: var(--ink-dark, #3d3229);
+
+    }
+
+    .history-btn.continue:hover {
+
+      opacity: 0.85;
+
+    }
+
+  </style>
+
 </head>
+
 <body>
-    <div class="bg-overlay"></div>
-    
-    <div class="app-container">
-        <!-- 顶部标题 -->
-        <header class="chat-header">
-            <div class="header-inner">
-                <div class="avatar-section">
-                    <div class="avatar">
-                        <span>嵇</span>
-                    </div>
-                    <div class="header-info">
-                        <h1>嵇康</h1>
-                        <p class="subtitle">字叔夜 · 竹林七贤之首 · 景元三年</p>
-                    </div>
-                </div>
-                <div class="header-actions">
-                    <button id="clearBtn" class="icon-btn" title="清空对话">清空</button>
-                    <button id="aboutBtn" class="icon-btn" title="关于">关于</button>
-                </div>
-            </div>
-        </header>
 
-        <!-- 聊天区域 -->
-        <main class="chat-main" id="chatMain">
-            <div class="welcome-message">
-                <div class="welcome-icon">🎋</div>
-                <h2>松下风来，与君对坐</h2>
-                <p>吾乃嵇康，字叔夜。子有何事，但说无妨。</p>
-                <div class="suggested-questions">
-                    <button class="suggestion" data-text="请谈《广陵散》">《广陵散》</button>
-                    <button class="suggestion" data-text="何为声无哀乐？">声无哀乐</button>
-                    <button class="suggestion" data-text="与山巨源绝交，何故？">与山巨源绝交书</button>
-                    <button class="suggestion" data-text="君如何养生？">养生之道</button>
-                </div>
-            </div>
-            <!-- 消息将动态插入这里 -->
-        </main>
 
-        <!-- 输入区域 -->
-        <footer class="chat-footer">
-            <div class="input-area">
-                <div class="input-wrapper">
-                    <input 
-                        type="text" 
-                        id="messageInput" 
-                        placeholder="向叔夜发问……" 
-                        autocomplete="off"
-                        maxlength="500"
-                    >
-                    <button id="sendBtn" class="send-btn">
-                        <span>发送</span>
-                    </button>
-                </div>
-                <div class="input-hint">
-                    <span>按 Enter 发送 · 嵇康所知止于262年</span>
-                </div>
-            </div>
-        </footer>
-    </div>
 
-    <!-- 关于弹窗 -->
-    <div id="aboutModal" class="modal">
-        <div class="modal-content">
-            <span class="close-btn" id="closeModal">&times;</span>
-            <h3>关于</h3>
-            <p>此网页基于《嵇康集》《世说新语》《晋书》等史料构建。</p>
-            <p>嵇康（223—262），字叔夜，谯国铚县人。竹林七贤之首，临刑前索琴奏《广陵散》，叹曰："广陵散于今绝矣！"</p>
-            <p>知识边界严格截止于景元三年（262年），此后之事，彼不知也。</p>
+  <!-- 水墨装饰 -->
+
+  <div class="ink-wash ink-top-left" aria-hidden="true"></div>
+
+  <div class="ink-wash ink-top-right" aria-hidden="true"></div>
+
+  <div class="ink-wash ink-bottom-left" aria-hidden="true"></div>
+
+  <div class="ink-wash ink-bottom-right" aria-hidden="true"></div>
+
+
+
+  <!-- 竖排诗句装饰 -->
+
+  <div class="side-verse left" aria-hidden="true">广陵散于今绝矣</div>
+
+  <div class="side-verse right" aria-hidden="true">目送归鸿手挥五弦</div>
+
+
+
+  <!-- ==================== 封面页 ==================== -->
+
+  <section id="screen-launch" class="screen active">
+
+    <div class="cover-page">
+
+
+
+      <!-- 顶部装饰线 -->
+
+      <div class="cover-topline">
+
+        <span class="topline-dot"></span>
+
+        <span class="topline-text">景元三年 · 公元262年</span>
+
+        <span class="topline-dot"></span>
+
+      </div>
+
+
+
+      <!-- 主标题区 -->
+
+      <header class="cover-header">
+
+        <h1 class="cover-title">
+
+          <span class="title-char">嵇</span>
+
+          <span class="title-char">康</span>
+
+          <span class="title-char">对</span>
+
+          <span class="title-char">话</span>
+
+        </h1>
+
+        <p class="cover-subtitle">知识的边界止于景元三年</p>
+
+        <div class="cover-separator">
+
+          <span class="sep-line"></span>
+
+          <span class="sep-ornament">◆</span>
+
+          <span class="sep-line"></span>
+
         </div>
+
+      </header>
+
+
+
+      <!-- 主内容区 -->
+
+      <main class="cover-body">
+
+
+
+        <!-- 第一步：模式选择 -->
+
+        <div class="step" id="step-1">
+
+          <h2 class="step-label">
+
+            <span class="step-num">壹</span>
+
+            <span class="step-text">选择对话模式</span>
+
+          </h2>
+
+          <div class="mode-cards">
+
+            <button type="button" class="mode-card" data-mode="xingqing" aria-pressed="false">
+
+              <span class="card-icon" aria-hidden="true">琴</span>
+
+              <span class="card-title">性情版</span>
+
+              <span class="card-desc">嵇康本色，高冷傲岸</span>
+
+              <span class="card-hint">不想答就怼，像真人</span>
+
+            </button>
+
+            <button type="button" class="mode-card" data-mode="wenda" aria-pressed="false">
+
+              <span class="card-icon" aria-hidden="true">书</span>
+
+              <span class="card-title">问答版</span>
+
+              <span class="card-desc">有问必答，深入探讨</span>
+
+              <span class="card-hint">适合学习交流</span>
+
+            </button>
+
+          </div>
+
+        </div>
+
+
+
+        <!-- 第二步：条件选项 -->
+
+        <div class="step" id="step-2" hidden>
+
+          <h2 class="step-label">
+
+            <span class="step-num">贰</span>
+
+            <span class="step-text">进一步设定</span>
+
+          </h2>
+
+
+
+          <!-- 性情版选项 -->
+
+          <div class="options-panel" id="options-xingqing" hidden>
+
+            <div class="options-row">
+
+              <span class="options-name">你的身份</span>
+
+              <div class="identity-group">
+
+                <label class="identity-option">
+
+                  <input type="radio" name="identity" value="好友" checked>
+
+                  <span class="identity-label">
+
+                    <span class="id-icon">🎋</span>
+
+                    <span class="id-name">好友</span>
+
+                    <span class="id-desc">知音</span>
+
+                  </span>
+
+                </label>
+
+                <label class="identity-option">
+
+                  <input type="radio" name="identity" value="仇敌">
+
+                  <span class="identity-label">
+
+                    <span class="id-icon">⚔</span>
+
+                    <span class="id-name">仇敌</span>
+
+                    <span class="id-desc">小人</span>
+
+                  </span>
+
+                </label>
+
+                <label class="identity-option">
+
+                  <input type="radio" name="identity" value="陌生人">
+
+                  <span class="identity-label">
+
+                    <span class="id-icon">🍂</span>
+
+                    <span class="id-name">陌生人</span>
+
+                    <span class="id-desc">过客</span>
+
+                  </span>
+
+                </label>
+
+              </div>
+
+            </div>
+
+
+
+            <div class="options-row">
+
+              <div class="toggle-wrap">
+
+                <div class="toggle-info">
+
+                  <span class="toggle-name">心声模式</span>
+
+                  <span class="toggle-desc">聆听嵇康内心的真实想法</span>
+
+                </div>
+
+                <label class="toggle-switch">
+
+                  <input type="checkbox" id="heart-voice-toggle">
+
+                  <span class="toggle-slider"></span>
+
+                </label>
+
+              </div>
+
+            </div>
+
+          </div>
+
+
+
+          <!-- 问答版选项 -->
+
+          <div class="options-panel" id="options-wenda" hidden>
+
+            <div class="options-row">
+
+              <span class="options-name">回应风格</span>
+
+              <div class="subtype-group">
+
+                <label class="subtype-option">
+
+                  <input type="radio" name="subtype" value="原始版" checked>
+
+                  <span class="subtype-label">
+
+                    <span class="st-name">原始版</span>
+
+                    <span class="st-desc">嵇康本色回应</span>
+
+                  </span>
+
+                </label>
+
+                <label class="subtype-option">
+
+                  <input type="radio" name="subtype" value="深度版">
+
+                  <span class="subtype-label">
+
+                    <span class="st-name">深度版</span>
+
+                    <span class="st-desc">思想通透深邃</span>
+
+                  </span>
+
+                </label>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- 历史对话入口 —— 卡片风格，模仿模式选择 -->
+
+        <div class="launch-history-wrap">
+
+          <div class="history-card" id="btn-launch-history" role="button" tabindex="0">
+
+            <span class="history-card-icon" aria-hidden="true">卷</span>
+
+            <span class="history-card-title">历史对话</span>
+
+            <span class="history-card-desc">查看已保存的对话记录</span>
+
+            <span class="history-card-hint">点击继续之前的交流</span>
+
+          </div>
+
+        </div>
+
+      </main>
+
+
+
+      <!-- 底部按钮 -->
+
+      <footer class="cover-footer">
+
+        <button type="button" id="btn-enter" class="seal-btn" disabled>
+
+          <span class="seal-inner">
+
+            <span class="seal-char">进</span>
+
+            <span class="seal-char">入</span>
+
+            <span class="seal-char">对</span>
+
+            <span class="seal-char">话</span>
+
+          </span>
+
+        </button>
+
+        <p class="cover-note">参考：《嵇康集》《三国志》《晋书》《世说新语》</p>
+
+      </footer>
+
     </div>
 
-    <script src="{{ url_for('static', filename='js/chat.js') }}"></script>
+  </section>
+
+
+
+  <!-- ==================== 对话页 ==================== -->
+
+  <section id="screen-chat" class="screen">
+
+    <!-- 顶部导航 -->
+
+    <header class="chat-header">
+
+      <div class="header-left">
+
+        <span class="header-title">嵇康对话</span>
+
+        <div class="header-tags" id="mode-tags">
+
+          <span class="tag tag-mode">性情版</span>
+
+        </div>
+
+      </div>
+
+      <div class="header-right">
+
+        <button type="button" id="btn-history" class="btn-text">历史</button>
+
+        <button type="button" id="btn-new-chat" class="btn-text">新对话</button>
+
+      </div>
+
+    </header>
+
+
+
+    <!-- 第一步：确认开启新对话 -->
+    <div class="modal-overlay" id="new-chat-modal" hidden>
+      <div class="modal-box">
+        <h3 class="modal-title">开启新对话</h3>
+        <p class="modal-desc">当前对话将结束，是否开启新的对话？</p>
+        <div class="modal-actions">
+          <button type="button" id="btn-cancel-new" class="modal-btn secondary">取消</button>
+          <button type="button" id="btn-confirm-new" class="modal-btn primary">确认开启</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 第二步：确认保存聊天记录 -->
+    <div class="modal-overlay" id="save-chat-modal" hidden>
+      <div class="modal-box">
+        <h3 class="modal-title">保存对话</h3>
+        <p class="modal-desc" id="save-chat-desc">当前对话有消息记录，是否保存？</p>
+        <div class="modal-actions">
+          <button type="button" id="btn-cancel-save" class="modal-btn secondary">取消</button>
+          <button type="button" id="btn-no-save" class="modal-btn secondary">不保存</button>
+          <button type="button" id="btn-yes-save" class="modal-btn primary">保存</button>
+        </div>
+      </div>
+    </div>
+
+
+
+    <!-- 聊天历史 -->
+
+    <main class="chat-history" id="chat-history" aria-live="polite">
+
+      <div class="empty-state" id="empty-state">
+
+        <p class="empty-text">向嵇康发问…</p>
+
+        <p class="empty-hint">知识的边界止于景元三年</p>
+
+      </div>
+
+    </main>
+
+
+
+    <!-- 书写中指示器 -->
+
+    <div class="writing-indicator" id="writing-indicator" hidden>
+
+      <span class="indicator-text">嵇康书写中</span>
+
+      <span class="writing-dots" aria-hidden="true">
+
+        <span></span><span></span><span></span>
+
+      </span>
+
+    </div>
+
+
+
+    <!-- 输入区 -->
+
+    <footer class="chat-input-area">
+
+      <div class="input-wrapper">
+
+        <textarea
+
+          id="chat-input"
+
+          class="scroll-input"
+
+          placeholder="向嵇康发问…"
+
+          rows="1"
+
+          aria-label="输入消息"
+
+        ></textarea>
+
+        <button type="button" id="btn-send" class="btn-ask" aria-label="发送">问</button>
+
+      </div>
+
+    </footer>
+
+  </section>
+
+
+
+  <!-- 历史对话侧边栏（全局，首页和对话页共用） -->
+
+  <aside class="history-panel" id="history-panel" hidden>
+
+    <div class="history-header">
+
+      <h3>历史对话</h3>
+
+      <button type="button" id="btn-close-history" class="btn-icon" aria-label="关闭">×</button>
+
+    </div>
+
+    <div class="history-list" id="history-list">
+
+      <p class="history-empty">暂无保存的对话</p>
+
+    </div>
+
+  </aside>
+
+  <div class="history-overlay" id="history-overlay" hidden></div>
+
+
+
+  <script src="../static/js/app.js"></script>
+
 </body>
+
 </html>
+

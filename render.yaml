@@ -1,22 +1,26 @@
-# Render Blueprint for 嵇康智能体
+# Render Blueprint for 嵇康智能体（完整版）
 # 部署步骤：
-# 1. 将 jikang_web 目录推送到 GitHub 仓库
-# 2. 在 Render Dashboard 创建 Blueprint 或手动新建 Web Service
-# 3. 在 Environment 中设置 GLM_API_KEY
-# 4. Render 会自动拉取代码、安装依赖并部署
+# 1. 代码推送到 GitHub
+# 2. 在 Render Dashboard 创建 Web Service，连接此仓库
+# 3. 在 Environment 中设置 DEEPSEEK_API_KEY
+# 4. Render 自动拉取代码、安装依赖并部署
 
 services:
   - type: web
     name: jikang-agent
     runtime: python
     plan: free
-    region: singapore  # 离中国最近的节点，国内访问相对较快
+    region: singapore
     buildCommand: pip install -r requirements.txt
-    startCommand: gunicorn app:app
+    startCommand: gunicorn -b 0.0.0.0:$PORT app:app
     envVars:
-      - key: GLM_API_KEY
+      - key: DEEPSEEK_API_KEY
         sync: false  # 不在配置文件中暴露，请在 Dashboard 手动设置
-      - key: GLM_MODEL
-        value: glm-4-flash
+      - key: DEEPSEEK_BASE_URL
+        value: https://api.deepseek.com/v1
+      - key: DEEPSEEK_MODEL
+        value: deepseek-chat
+      - key: GLM_API_KEY
+        sync: false
       - key: PYTHON_VERSION
         value: 3.11.0
